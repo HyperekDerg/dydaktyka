@@ -1,5 +1,7 @@
 # Programowanie obiektowe
 
+Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2).
+
 ## Informacje organizacyjne
 
   * Ocena za laboratorium jest przyznawana za rozwiązanie zadań oraz za
@@ -158,6 +160,14 @@ wielkość o połowę aktualnej wartości.
   * <https://docs.oracle.com/javase/tutorial/java/nutsandbolts/for.html>
   * <https://docs.oracle.com/javase/tutorial/java/javaOO/classes.html>
   * <https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html>
+
+## Moduł 2
+
+### Tablice
+
+### Klasa `String`
+
+### Dodatek: Modyfikator `final` dla zmiennych
 
 ## Zastrzeżenia
 
