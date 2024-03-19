@@ -165,9 +165,221 @@ wielkość o połowę aktualnej wartości.
 
 ### Tablice
 
+Przykład (pełny przykład znajduje się w katalogu
+[Array/](/programowanie-obiektowe/examples/02/Array/)):
+```java
+import java.util.Scanner;
+import java.util.Random;
+
+public class Array {
+    public static int get_length(java.io.InputStream is) {
+        Scanner s = new Scanner(is);
+        int n = s.nextInt();
+        s.close();
+        return n;
+    }
+    
+    public static void random(int[] array) {
+        Random r = new Random();
+        for (int i = 0; i < array.length; ++i) {
+            array[i] = r.nextInt(10);
+        }
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("Program wypełnia losowo n-elementową tablicę.");
+        System.out.print("Podaj wartość n: ");
+        int n = get_length(System.in);
+        
+        int arr[] = new int[n];
+        random(arr);
+        
+        System.out.print("Wylosowane wartości: ");
+        for (int i = 0; i < arr.length; ++i) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.print("\n");
+    }
+}
+```
+
+Wynik działania przykładu:
+> Program wypełnia losowo n-elementową tablicę.  
+> Podaj wartość n: 3  
+> Wylosowane wartości: 5 8 0 
+
+Przykład (pełny przykład znajduje się w katalogu
+[Two_dimensions/](/programowanie-obiektowe/examples/02/Two_dimensions/)):
+```java
+public class Two_dimensions {
+    private int arr_[][];
+    
+    public Two_dimensions(int size_x, int size_y) {
+        arr_ = new int[size_x][size_y];
+    }
+    
+    public int at(int x, int y) {
+        return arr_[x][y];
+    }
+    
+    public void at(int x, int y, int val) {
+        arr_[x][y] = val;
+    }
+    
+    public int size_x() {
+        return arr_.length;
+    }
+    
+    public int size_y() {
+        return arr_[0].length;
+    }
+    
+    public static void main(String[] args) {
+        Two_dimensions td = new Two_dimensions(2, 3);
+        System.out.println("Program wykorzystuje tablicę "
+                           + td.size_x() + " x " + td.size_y() + ".");
+        
+        for (int i = 0; i < td.size_x(); ++i) {
+            for (int j = 0; j < td.size_y(); ++j) {
+                td.at(i, j, (i + 1) * (j + 2));
+            }
+        }
+
+        for (int i = 0; i < td.size_x(); ++i) {
+            for (int j = 0; j < td.size_y(); ++j) {
+                System.out.print(td.at(i, j) + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+```
+
+Wynik działania przykładu:
+> Program wykorzystuje tablicę 2 x 3.  
+> 2 3 4   
+> 4 6 8 
+
 ### Klasa `String`
 
+Przykład (pełny przykład znajduje się w katalogu
+[Hello_kitty/](/programowanie-obiektowe/examples/02/Hello_kitty/)):
+```java
+public class Hello_kitty {
+    public static void main(String[] args) {
+        String s1 = "Hello, kitty!";
+        System.out.println("Zawartość s1: " + s1);
+
+        String s2 = "Hello, kitty!";
+        System.out.println("Zawartość s2: " + s2);
+
+        if (s1.equals(s2)) {
+            System.out.println("Obydwa napisy mają identyczną zawartość.");
+        }
+
+        for (int i = 0; i < s1.length(); ++i) {
+            System.out.print(s1.charAt(i));
+        }
+        System.out.println();
+
+        for (char c : s2.toCharArray()) {
+            System.out.print(c);
+        }
+        System.out.println();
+    }
+}
+```
+
+Wynik działania przykładu:
+> Zawartość s1: Hello, kitty!  
+> Zawartość s2: Hello, kitty!  
+> Obydwa napisy mają identyczną zawartość.  
+> Hello, kitty!  
+> Hello, kitty!
+
 ### Dodatek: Modyfikator `final` dla zmiennych
+
+Przykład (pełny przykład znajduje się w katalogu
+[Final/](/programowanie-obiektowe/examples/02/Final/)):
+```java
+public class Final {
+    public final static int answer = 42;
+    
+    public static void main(String[] args) {
+        final int my_answer = 42;
+        if (my_answer == answer) {
+            System.out.println("Odpowiedź prawidłowa!");
+        }
+        // answer++;    // Błąd!
+        // my_answer++; // Błąd!
+    }
+}
+```
+
+Wynik działania przykładu:
+> Odpowiedź prawidłowa!
+
+### Zadania
+
+#### 2.1 Macierze diagonalne
+
+Napisz program, w którym stworzysz klasę odpowiedzialną za kwadratową macierz
+diagonalną:
+```math
+A = \left[
+\begin{array}{cccccc}
+d_1 & 0 & 0 & \cdots & 0 \\
+0 & d_2 & 0 & \cdots & 0 \\
+0 & 0 & d_3 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & d_n
+\end{array}
+\right]
+```
+
+Klasa ta powinna posiadać:
+  * konstruktor przyjmujący liczbę elementów na diagonali $`n`$
+  * metodę obliczającą tzw. ślad macierzy (ang. *trace*; ślad macierzy jest
+    równy sumie elementów umieszczonych na diagonali)
+  * metodę statyczną obliczającą iloczyn dwóch kwadratowych macierzy
+    diagonalnych
+
+W programie wykorzystaj stworzoną przez siebie klasę do przykładowych obliczeń,
+do których wartości zostaną podane przez użytkownika na klawiaturze.
+
+Uwaga: Zauważ, że do rozwiązania tego zadania nie trzeba (nie warto)
+wykorzystywać tablic dwuwymiarowych.
+
+#### 2.2 ROT13
+
+Zaimplementuj program, który pobierze jedną linijkę tekstu od użytkownika
+i zaszyfruje ją algorytmem ROT13. Algorytm ROT13 jest prostym szyfrem
+podstawieniowym, w którym litera *A* jest zastępowana przez *N*, *B* przez *O*
+itd. W analogiczny sposób szyfruje się małe litery alfabetu łacińskiego. Inne
+znaki (np. białe lub interpunkcyjne) nie są szyfrowane. Załóż, że dane na
+wejściu będą zawierać wyłącznie znaki z podstawowego alfabetu łacińskiego
+oraz ewentualnie znaki białe lub interpunkcyjne.
+
+Wynik działania programu:
+> Podaj tekst: Tekst do zaszyfrowania.  
+> Wynik: Grxfg qb mnfmlsebjnavn.
+
+Uwaga: Jeśli `s` jest obiektem typu `Scanner` to kod:
+```java
+String line = s.nextLine();
+```
+umożliwia wczytanie pojedynczego wiersza z klawiatury.
+
+Uwaga: Szyfrowanie ROT13 nie jest bezpieczne z oczywistych względów. Ten sam
+algorytm służy zarówno do szyfrowania jak i deszyfrowania (tzn. algorytm posiada
+tylko jeden klucz). Nazwa algorytmu wynika z faktu, że poszczególne litery są
+zastępowane innymi oddalonymi o 13 znaków (a podstawowy alfabet łaciński posiada
+26 znaków).
+
+### Bibliografia
+
+  * <https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html>
+  * <https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html>
 
 ## Zastrzeżenia
 
