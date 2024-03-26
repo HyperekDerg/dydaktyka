@@ -1,6 +1,7 @@
 # Programowanie obiektowe
 
-Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2).
+Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
+[3](#moduł-3).
 
 ## Informacje organizacyjne
 
@@ -380,6 +381,294 @@ zastępowane innymi oddalonymi o 13 znaków (a podstawowy alfabet łaciński pos
 
   * <https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html>
   * <https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html>
+
+## Moduł 3
+
+### Wyjątki
+
+Przykład (pełny przykład znajduje się w katalogu
+[Exceptions_showcase/](/programowanie-obiektowe/examples/03/Exceptions_showcase/)):
+```java
+public class Exceptions_showcase {
+    private static void throw_exception() throws Exception {
+        throw new Exception();
+    }
+
+    private static void try_catch_finally() {
+        System.out.println("### Przykład 1 ###");
+        try {
+            System.out.println("Zaraz zostanie rzucony wyjątek.");
+            throw_exception();
+            System.out.println("Ten komunikat się nie wypisze.");
+        } catch (Exception e) {
+            System.out.println("Przechwycono wyjątek.");
+        } finally {
+            System.out.println(
+                "Ten komunikat wypisze się w ostatniej kolejności.");
+        }
+        System.out.println("### Koniec przykładu 1 ###");
+    }
+
+    private static void try_finally() throws Exception {
+        System.out.println("### Przykład 2 ###");
+        try {
+            System.out.println("Zaraz zostanie rzucony wyjątek.");
+            throw_exception();
+            System.out.println("Ten komunikat się nie wypisze.");
+        } finally {
+            System.out.println(
+                "Ten komunikat *nie* wypisze się w ostatniej kolejności.");
+        }
+        System.out.println("Ten komunikat się nie wypisze.");
+    }
+
+    private static void try_catch3() {
+        System.out.println("### Przykład 3 ###");
+        try {
+            final int a = 0;
+            if (a != 42) {
+                throw new ArithmeticException();
+            }
+            throw new java.io.IOException();
+        } catch (java.io.IOException e) {
+            System.out.println("Ten komunikat się nie wypisze.");
+        } catch (ArithmeticException e) {
+            System.out.println("Przechwycono wyjątek.");
+        } catch (Exception e) {
+            System.out.println("Ten komunikat się nie wypisze.");
+        }
+        System.out.println("### Koniec przykładu 3 ###");
+    }
+    
+    public static void main(String[] args) {
+        try_catch_finally();
+        
+        try {
+            try_finally();
+        } catch (Exception e) {
+            System.out.println("Przechwycono wyjątek.");            
+        } finally {
+            System.out.println("### Koniec przykładu 2 ###");
+        }
+
+        try_catch3();
+    }
+}
+```
+
+Wynik działania programu:
+> \#\#\# Przykład 1 \#\#\#  
+> Zaraz zostanie rzucony wyjątek.  
+> Przechwycono wyjątek.  
+> Ten komunikat wypisze się w ostatniej kolejności.  
+> \#\#\# Koniec przykładu 1 \#\#\#  
+> \#\#\# Przykład 2 \#\#\#  
+> Zaraz zostanie rzucony wyjątek.  
+> Ten komunikat \*nie\* wypisze się w ostatniej kolejności.  
+> Przechwycono wyjątek.  
+> \#\#\# Koniec przykładu 2 \#\#\#  
+> \#\#\# Przykład 3 \#\#\#  
+> Przechwycono wyjątek.  
+> \#\#\# Koniec przykładu 3 \#\#\#
+
+### Wyjątek `ArrayIndexOutOfBoundsException`
+
+Przykład (pełny przykład znajduje się w katalogu
+[Array_bounds/](/programowanie-obiektowe/examples/03/Array_bounds/)):
+```java
+public class Array_bounds {
+    public static void main(String[] args) {
+        int arr[] = new int[42];
+        
+        try {
+            System.out.println(arr[42]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Szczegóły wyjątku: " + e.getMessage());
+        }
+        
+        try {
+            System.out.println(arr[-1]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Szczegóły wyjątku: " + e.getMessage());
+        }
+    }
+}
+```
+
+Wynik działania programu:
+> Szczegóły wyjątku: Index 42 out of bounds for length 42  
+> Szczegóły wyjątku: Index -1 out of bounds for length 42
+
+### Wyjątek `ArithmeticException`
+
+Przykład (pełny przykład znajduje się w katalogu
+[Division_by_zero/](/programowanie-obiektowe/examples/03/Division_by_zero/)):
+```java
+public class Division_by_zero {
+    public static void main(String[] args) {
+        try {
+            int a = 42;                // Uwaga: Dla typu double nie nastąpi
+            int b = 0;                 // rzucanie wyjątku! (Obliczenia
+            System.out.println(a / b); // zmiennoprzecinkowe obsługują specjalną
+                                       // wartość "nieskończoność".)
+        } catch (ArithmeticException e) {
+            System.out.println("Szczegóły wyjątku: " + e.getMessage());
+        }
+    }
+}
+```
+
+Wynik działania programu:
+> Szczegóły wyjątku: / by zero
+
+### Wyjątek `InputMismatchException`
+
+Przykład (pełny przykład znajduje się w katalogu
+[Input/](/programowanie-obiektowe/examples/03/Input/)):
+```java
+import java.util.Scanner;
+
+public class Input {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        System.out.print("Podaj wartość całkowitą: ");
+        try {
+          int a = s.nextInt();
+          System.out.println("Podano wartość: " + a);
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("Podana wartość nie jest prawidłowa.");
+        }
+        s.close();
+    }
+}
+```
+
+Wynik działania programu (przykład 1):
+> Podaj wartość całkowitą: 42  
+> Podano wartość: 42
+
+Wynik działania programu (przykład 2):
+> Podaj wartość całkowitą: 42.0  
+> Podana wartość nie jest prawidłowa.
+
+### Wyjątek `NumberFormatException`
+
+Przykład (pełny przykład znajduje się w katalogu
+[String_to_number/](/programowanie-obiektowe/examples/03/String_to_number/)):
+```java
+public class String_to_number {
+    public static void main(String[] args) {
+        try {
+            String str1 = "42";
+            int number1 = Integer.parseInt(str1);
+            System.out.println("Udało się!");
+            
+            String str2 = "#42";
+            int number2 = Integer.parseInt(str2);
+            System.out.println("A tu już nie…");
+        } catch (NumberFormatException e) {
+            System.out.println("Szczegóły wyjątku: " + e.getMessage());
+        }
+    }
+}
+```
+
+Wynik działania programu:
+> Udało się!  
+> Szczegóły wyjątku: For input string: "#42"
+
+### Dodatek: Formatowanie liczb zmiennoprzecinkowych
+
+Przykład (pełny przykład znajduje się w katalogu
+[FP_formatting/](/programowanie-obiektowe/examples/03/FP_formatting/)):
+```java
+import java.text.DecimalFormat;
+
+public class FP_formatting {
+    public static void main(String[] args) {
+        final double val = 137.035999084; // odwrócona stała struktury subtelnej
+        
+        // (1a)
+        DecimalFormat df1a = new DecimalFormat("#.#");
+        String str1a = df1a.format(val);
+        System.out.println("Wartość: " + str1a);
+
+        // (1b)
+        DecimalFormat df1b = new DecimalFormat("#.##");
+        String str1b = df1b.format(val);
+        System.out.println("Wartość: " + str1b);
+        
+        // (2)
+        String str2 = String.format("%.1f", val);
+        System.out.println("Wartość: " + str2);
+    }
+}
+```
+
+Wynik działania programu:
+> Wartość: 137  
+> Wartość: 137,04  
+> Wartość: 137,0
+
+### Zadania
+
+#### 3.1 Równanie kwadratowe
+
+Przed nami *stare dobre* równanie kwadratowe:
+```math
+ax^2 + bx + c = 0, a \neq 0
+```
+którego wyróżnik:
+```math
+\Delta = b^2 - 4ac
+```
+określa liczbę pierwiastków rzeczywistych:
+  * jeśli $`\Delta > 0`$ to równanie ma dwa pierwiastki:
+    $`x_{1, 2} = (-b \pm \sqrt{\Delta}) / 2a`$
+  * jeśli $`\Delta = 0`$ to równanie ma jeden pierwiastek:
+    $`x = -b / 2a`$
+  * jeśli $`\Delta < 0`$ to równanie nie ma pierwiastków rzeczywistych
+
+Napisz klasę `Qudratic_equation`, która będzie posiadała:
+  * konstruktor przyjmujący wartości parametrów $`a`$, $`b`$ oraz $`c`$ równania
+    kwadratowego i rzucający wyjątek w przypadku, gdy $`a = 0`$
+  * metodę `delta` obliczającą wyróżnik równania kwadratowego
+  * metodę obliczającą pierwszy pierwiastek i rzucającą wyjątek jeśli
+    $`\Delta < 0`$
+  * metodę obliczającą drugi pierwiastek i rzucającą wyjątek jeśli
+    $`\Delta \leq 0`$
+
+Wszystkie funkcje składowe, które rzucają wyjątek powinny być odpowiednio
+wyspecyfikowane z użyciem `throws`.
+
+Wykorzystaj klasę `Quadratic_equation` w konstrukcji `try`-`catch`. Wartości
+$`a`$, $`b`$ oraz $`c`$ wczytaj ze standardowego wejścia. Pokaż wyniki obliczeń
+pierwiastka/pierwiastków.
+
+#### 3.2 Wyjątki łańcuchowe
+
+Sprawdż co się stanie, gdy wyrzucisz wyjątek w bloku `catch` po złapaniu
+poprzedniego wyjątku.
+
+Napisz program, w którym w bloku `catch` złapiesz wyjątek typu `Exception`
+stworzony z napisem `Hello`. W tym samym bloku `catch` rzuć kolejny wyjątek
+stworzony na bazie pierwszego, do którego dokleisz napisz `, kitty!`. Złap nowy
+wyjątek w nowym bloku `catch` i sprawdź, czy otrzymujesz napis `Hello, kitty!`.
+
+Wskazówka: Do rozwiązania tego zadania przyda się
+[ten konstruktor](https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html#Exception-java.lang.String-java.lang.Throwable-).
+
+### Bibliografia
+
+  * <https://docs.oracle.com/javase/tutorial/essential/exceptions/index.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/lang/Exception.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/lang/Throwable.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/lang/ArithmeticException.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/lang/ArrayIndexOutOfBoundsException.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/lang/NumberFormatException.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/util/InputMismatchException.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/text/DecimalFormat.html>
 
 ## Zastrzeżenia
 
