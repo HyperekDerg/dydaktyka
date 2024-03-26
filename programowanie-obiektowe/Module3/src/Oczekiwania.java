@@ -1,7 +1,7 @@
 public class Oczekiwania {
     public static void main(String[] args) {
         try {
-            int result = 5 / 0;
+            int result = 12 / 0;
         } catch (ArithmeticException e) {
             try {
                 throw new Exception("Hello");
