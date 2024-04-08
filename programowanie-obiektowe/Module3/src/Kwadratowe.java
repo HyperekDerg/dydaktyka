@@ -4,6 +4,9 @@ class Quadratic_equation {
     private double a, b, c;
 
     public Quadratic_equation(double a, double b, double c) {
+        if (a == 0) {
+            throw new IllegalArgumentException("Parametr 'a' nie może być równy zero.");
+        }
         this.a = a;
         this.b = b;
         this.c = c;
@@ -37,9 +40,12 @@ public class Kwadratowe {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Podaj wartości a, b, c dla równania ax^2 + bx + c = 0:");
-        double a = scanner.nextDouble();
-        double b = scanner.nextDouble();
-        double c = scanner.nextDouble();
+
+        double a = getUserInput(scanner, "Podaj wartość dla parametru a: ");
+        double b = getUserInput(scanner, "Podaj wartość dla parametru b: ");
+        double c = getUserInput(scanner, "Podaj wartość dla parametru c: ");
+
+        scanner.close();
 
         try {
             Quadratic_equation equation = new Quadratic_equation(a, b, c);
@@ -58,7 +64,12 @@ public class Kwadratowe {
                 System.out.println("Brak pierwiastków rzeczywistych.");
             }
         } catch (ArithmeticException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Błąd: " + e.getMessage());
         }
+    }
+
+    private static double getUserInput(Scanner scanner, String prompt) {
+        System.out.print(prompt);
+        return scanner.nextDouble();
     }
 }
