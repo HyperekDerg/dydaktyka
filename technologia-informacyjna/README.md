@@ -87,3 +87,7 @@ Wykonaj poniższe polecenia.
     * Należy odpowiednio zatytułować oś poziomą (*data*), oś pionową
       (*temperatura*) oraz cały rysunek (*Minimalna i maksymalna temperatura
       dobowa*).
+
+# Zastrzeżenia
+
+Zobacz plik [LICENSE](/LICENSE).

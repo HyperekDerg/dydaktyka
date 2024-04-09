@@ -7,3 +7,7 @@ Zawartość:
   * [Programowanie obiektowe](/programowanie-obiektowe)
   * [Technologia informacyjna](/technologia-informacyjna)
   * [Propozycje tematów prac dyplomowych](/prace-dyplomowe)
+
+# Zastrzeżenia
+
+Zobacz plik [LICENSE](/LICENSE).

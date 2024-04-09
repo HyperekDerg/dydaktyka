@@ -68,3 +68,7 @@ electron densities*, Journal of Molecular Graphics and Modelling **17** (1999)
 [8] T. Tarkowski, *Quilë: C++ genetic algorithms scientific library*, Journal of
 Open Source Software **8** (82) (2023) 4902.
 [doi: 10.21105/joss.04902](https://doi.org/10.21105/joss.04902)
+
+## Zastrzeżenia
+
+Zobacz plik [LICENSE](/LICENSE).
