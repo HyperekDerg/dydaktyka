@@ -4,6 +4,7 @@ public class InternationalPitchNotationTester {
         testInvalidNotation("M♯4");
         testInvalidNotation("F#");
         testInvalidNotation("C14");
+        testInvalidNotation("C4");
     }
 
     public static void testValidNotation(String notation) {

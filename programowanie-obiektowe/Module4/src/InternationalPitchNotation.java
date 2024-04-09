@@ -1,8 +1,3 @@
-class InternationalPitchNotationException extends Exception {
-    public InternationalPitchNotationException(String message) {
-        super(message);
-    }
-}
 
 public class InternationalPitchNotation {
     private String[] noteNames = { "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B" };
