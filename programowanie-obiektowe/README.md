@@ -1,7 +1,7 @@
 # Programowanie obiektowe
 
 Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
-[3](#moduł-3), [4](#moduł-4).
+[3](#moduł-3), [4](#moduł-4), [5](#moduł-5).
 
 ## Informacje organizacyjne
 
@@ -816,6 +816,185 @@ konstruktory zgodnie z przykładem
 Wyjątek `International_Pitch_Notation_Exception` powinien być rzucany wtedy, gdy
 jakaś metoda klasy `International_Pitch_Notation` próbuje zapisać nutę w sposób
 niezgodny z notacją IPN, np. próbując ustawić wartość M♯4.
+
+## Moduł 5
+
+### Pliki tekstowe: zapis i odczyt (wersja klasyczna)
+
+Przykład (pełny przykład znajduje się w katalogu
+[Classic/](/programowanie-obiektowe/examples/05/Classic/)):
+```java
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Classic {
+    private static String read(String filename) throws IOException {
+        FileReader r = new FileReader(filename);
+        String res = "";
+        int c;
+        while ((c = r.read()) != -1) {
+            res += (char) c;
+        }
+        r.close();
+        return res;
+    }
+
+    private static void write(String filename, String str) throws IOException {
+        FileWriter w = new FileWriter(filename);
+        w.write(str);
+        w.close();
+    }
+    
+    public static void main(String[] args) {
+        final String filename = "file.txt";
+        final String text = "Hello, kitty!";
+        try {
+            write(filename, text);
+            String str = read(filename);
+            if (str.equals(text)) {
+                System.out.println("Zapis i odczyt prawidłowy.");
+            }
+        } catch (IOException e) {
+            // Uwaga: Zastosowano poniżej strumień błędów System.err.
+            System.err.println(e.getMessage());
+        }
+    }
+}
+```
+
+Wynik działania przykładu:
+> Zapis i odczyt prawidłowy.
+
+### Pliki tekstowe: zapis i odczyt (wersja współczesna)
+
+Przykład (pełny przykład znajduje się w katalogu
+[Modern/](/programowanie-obiektowe/examples/05/Modern/)):
+```java
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class Modern {
+    public static void main(String[] args) {
+        final Path filepath = Paths.get("file.txt");
+        final String poetry =
+            "hello, kitty\n"
+            + "my old friend\n"
+            + "we are drinking\n"
+            + "milk again\n";
+        try {
+            Files.write(filepath, poetry.getBytes());
+            List<String> verses = Files.readAllLines(filepath);
+            for (String line : verses) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+}
+```
+
+Wynik działania przykładu:
+> hello, kitty  
+> my old friend  
+> we are drinking  
+> milk again
+
+### Pliki binarne: zapis i odczyt (serializacja i deserializacja obiektów)
+
+Przykład (pełny przykład znajduje się w katalogu
+[Serialize/](/programowanie-obiektowe/examples/05/Serialize/)):
+```java
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+class Kitty implements Serializable {
+    private String favorite_drink;
+    
+    public Kitty(String drink) {
+        favorite_drink = drink;
+    }
+
+    public String get_favorite_drink() {
+        return favorite_drink;
+    }
+}
+
+public class Serialize {
+    private static void serialize_kitty(String filename, Kitty kitty)
+        throws IOException
+    {
+        FileOutputStream file_out = new FileOutputStream(filename);
+        ObjectOutputStream object_out = new ObjectOutputStream(file_out);
+        object_out.writeObject(kitty);
+    }
+
+    private static Kitty deserialize_kitty(String filename)
+        throws IOException, ClassNotFoundException
+    {
+        FileInputStream file_in = new FileInputStream(filename);
+        ObjectInputStream object_in = new ObjectInputStream(file_in);
+        Kitty kitty = (Kitty) object_in.readObject();
+        return kitty;
+    }
+    
+    public static void main(String[] args) {
+        try {
+            String filename = "kitty.bin";
+            Kitty kitty = new Kitty("milk, of course");
+            serialize_kitty(filename, kitty);
+            Kitty clone = deserialize_kitty(filename);
+            System.out.println("Kitty's favorite drink: "
+                               + clone.get_favorite_drink());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+}
+```
+
+Wynik działania przykładu:
+> Kitty's favorite drink: milk, of course
+
+### Zadania
+
+#### 5.1 `uniq`
+
+Napisz program, który będzie wczytywał wierszami plik tekstowy i wypisywał jego
+zawartość do innego pliku tekstowego. Jeśli w pliku wejściowym dwie (lub więcej)
+następujące po sobie linie są identyczne, to w pliku wyjściowym należy zapisać
+taką linię tylko raz (pomijając następujące bezpośrednio po oryginale
+duplikaty).
+
+Nazwy plików powinny być podawane przez użytkownika w trakcie działania
+programu. Jeśli plik wejściowy nie istnieje, to program powinien wypisywać
+komunikat:
+> Plik o podanej nazwie nie istnieje.
+
+Uwaga: Program w swoim działania jest do pewnego stopnia podobny do polecenia
+`uniq` z pakietu *GNU coreutils*.
+
+### Bibliografia
+
+  * <https://docs.oracle.com/javase/8/docs/api/java/io/FileReader.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/io/FileWriter.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/nio/file/Paths.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/util/List.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/io/FileInputStream.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/io/FileOutputStream.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/io/ObjectInputStream.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/io/ObjectOutputStream.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html>
 
 ## Zastrzeżenia
 
