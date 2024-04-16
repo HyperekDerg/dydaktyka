@@ -1,0 +1,6 @@
+To jest przykładowy tekst.
+Ta linia się powtarza.
+Ta linia się powtarza.
+Inna linia.
+Inny tekst.
+To jest przykładowy tekst.
