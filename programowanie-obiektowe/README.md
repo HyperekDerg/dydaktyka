@@ -1,7 +1,7 @@
 # Programowanie obiektowe
 
 Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
-[3](#moduł-3), [4](#moduł-4), [5](#moduł-5).
+[3](#moduł-3), [4](#moduł-4), [5](#moduł-5), [6](#moduł-6).
 
 ## Informacje organizacyjne
 
@@ -995,6 +995,130 @@ Uwaga: Program w swoim działania jest do pewnego stopnia podobny do polecenia
   * <https://docs.oracle.com/javase/8/docs/api/java/io/ObjectInputStream.html>
   * <https://docs.oracle.com/javase/8/docs/api/java/io/ObjectOutputStream.html>
   * <https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html>
+
+## Moduł 6
+
+### Dziedziczenie klas
+
+Przykład (pełny przykład znajduje się w katalogu
+[Cat_Example/](/programowanie-obiektowe/examples/06/Cat_Example/)):
+```java
+class Cat {
+    private final String fur;
+
+    public Cat(String fur) {
+        this.fur = fur;
+    }
+
+    public String get_fur() {
+        return fur;
+    }
+
+    public String description() {
+        return "Cat with " + fur + " fur";
+    }
+};
+
+class Wild_Cat extends Cat {
+    private int sharpness_of_claws; // [0%, 100%]
+
+    public Wild_Cat(String fur, int sharpness_of_claws) {
+        super(fur);
+        this.sharpness_of_claws = sharpness_of_claws;
+    }
+
+    public int get_sharpness_of_claws() {
+        return sharpness_of_claws;
+    }
+
+    @Override public String description() {
+        return
+            "Wild "
+            + super.description()
+            + " and claws with sharpness of " + sharpness_of_claws + "%";
+    }
+};
+
+public class Cat_Example {
+    private static void example_1() {
+        System.out.println("Example 1");
+        Wild_Cat c = new Wild_Cat("black", 100);
+        System.out.println(c.description());
+        System.out.println(c.get_fur());
+        System.out.println(c.get_sharpness_of_claws());
+    }
+
+    private static void example_2() {
+        System.out.println("Example 2");
+        Cat c = new Wild_Cat("black", 100);
+        System.out.println(c.description());
+        System.out.println(c.get_fur());
+        // System.out.println(c.get_sharpness_of_claws()); // Błędny kod
+    }
+    
+    public static void main(String[] args) {
+        example_1();
+        example_2();
+    }
+}
+```
+
+Wynik działania przykładu:
+> Example 1  
+> Wild Cat with black fur and claws with sharpness of 100%  
+> black  
+> 100  
+> Example 2  
+> Wild Cat with black fur and claws with sharpness of 100%  
+> black
+
+### Zadania
+
+#### 6.1 Wielomiany
+
+Stwórz klasę `Polynomial` reprezentującą dowolny wielomian ($`a_n \neq 0`$):
+```math
+p(x) = a_n x^n + \dots + a_1 x + a_0 = \sum_{i=0}^{n} a_i x^i
+```
+Niech klasa ta posiada:
+  * prywatną tablicę wartości `double` reprezentującą współczynniki wielomianu
+  * konstruktor inicjujący ww. tablicę
+  * metodę `eval` obliczającą wartość wielomianu $`p(x)`$ w punkcie $`x`$
+    podanym jako argument tej metody
+  * metodę `deg` zwracającą stopień wielomianu, tzn. wartość $`n`$
+  * metodę `description` zwracającą opis wielomianu, np. *wielomian stopnia 4*
+
+Stwórz dwie klasy dziedziczące po `Polynomial`: `Linear_Polynomial`
+(reprezentującą wielomian stopnia pierwszego, tzn. funkcję liniową) oraz
+`Quadratic_Polynomial` (reprezentującą wielomian stopnia drugiego, tzn. funkcję
+kwadratową).
+
+Klasa `Linear_Polynomial` powinna umożliwić obliczenie nachylenia prostej
+względem osi $`x`$ na wykresie reprezentującym funkcję liniową (zdefiniuj do
+tego celu odpowiednią metodę). Wywołanie metody `description` powinno zwrócić
+napis *wielomian liniowy*.
+
+Klasa `Quadratic_Polynomial` powinna umożliwić obliczenie ekstremum funkcji
+kwadratowej (zdefiniuj do tego celu odpowiednią metodę). Wywołanie metody
+`description` powinno zwrócić napis *wielomian kwadratowy*.
+
+Stwórz przykładowy program korzystający z klas `Polynomial`, `Linear_Polynomial`
+oraz `Quadratic_Polynomial`.
+
+#### 6.2 `JButton`
+
+Stwórz klasę dziedziczącą po `JButton` o wybranej przez siebie nazwie. Niech ta
+nowa klasa posiada konstruktor, który przyjmuje dwa argumenty:
+  * pierwszy ustawiający napis na przycisku (niech będzie on przekazywany do
+    klasy bazowej)
+  * drugi ustawiający napis podpowiedzi wyświetlanej po najechaniu kursorem na
+    przycisk (użyj funkcji `setToolTipText`)
+
+Napisz przykładowy program, który wykorzystuje nową klasę oraz klasę `JFrame`.
+
+### Bibliografia
+
+  * <https://docs.oracle.com/javase/tutorial/java/concepts/inheritance.html>
 
 ## Zastrzeżenia
 
