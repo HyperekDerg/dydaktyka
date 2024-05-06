@@ -1,7 +1,7 @@
 # Programowanie obiektowe
 
 Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
-[3](#moduł-3), [4](#moduł-4), [5](#moduł-5), [6](#moduł-6).
+[3](#moduł-3), [4](#moduł-4), [5](#moduł-5), [6](#moduł-6), [7](#moduł-7).
 
 ## Informacje organizacyjne
 
@@ -17,7 +17,121 @@ Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
 
 ## Źródła wiedzy
 
+  * <https://docs.oracle.com/javase/tutorial/java/TOC.html>
   * <https://en.wikibooks.org/wiki/Java_Programming>
+
+## Projekt indywidualny
+
+[W trakcie przygotowania]
+
+  * Projekt indywidualny jest jednorazowym większym zadaniem na przedmiocie
+    *Programowanie obiektowe*, w którym rozwiązuje się dany problem z użyciem
+    graficznego interfejsu użytkownika.
+  * Rozwiązanie tego zadania należy oddać do oceny najpóźniej w dniu
+    przedostatnich zajęć.
+  * Propozycje tematów projektów indywidualnych znajdują się poniżej. Treść
+    projektu indywidualnego może też zostać zaproponowana przez osobę
+    rozwiązującą zadanie, aczkolwiek wymaga ona akceptacji osoby prowadzącej
+    zajęcia laboratoryjne.
+  * Wybrany przez siebie temat projektu indywidualnego należy zgłosić do osoby
+    prowadzącej zajęcia laboratoryjne.
+  * Rozwiązanie zadania powinno składać się z następujących elementów:
+      * kompilujący się kod źródłowy w formie plików o rozszerzeniu `.java`
+      * komentarze zawarte w ww. kodzie źródłowym dokumentujące przeznaczenie
+        klas oraz funkcji
+      * plik `README.pdf`
+  * W implementacji rozwiązania należy wykorzystać w odpowiedni sposób:
+      * graficzny interfejs użytkownika, obsługa zdarzeń
+      * klasy (zmienne składowe, konstruktory, metody składowe)
+      * dziedziczenie klas, nadpisywanie metod oraz polimorfizm
+      * interfejsy, klasy i metody abstrakcyjne
+      * napisy (`String`) oraz wybrane kolekcje (np. `List`)
+      * zapis i odczyt plików (obsługa strumieni)
+      * wyjątki (włącznie ze stworzeniem własnej klasy wyjątków)
+  * Komentarze zawarte w kodzie źródłowym powinny opisywać krótko przeznaczenie:
+      * każdej klasy oraz interfejsu
+      * większości metod (można pominąć opis oczywistych metod, np.
+        konstruktorów)
+      * innych elementów kodu istotnych do zrozumienia intencji programisty
+  * Plik `README.pdf` powinien zawierać przynajmniej około 2 stron tekstu (dla
+    formatu A4) oraz od jednego do kilku zrzutów ekranu z przykładowej sesji
+    działania programu. W pliku `README.pdf` należy:
+      * opisać rozwiązywany przez program problem
+      * opisać sposób użycia programu w formie krótkiej instrukcji użytkownika
+      * zawrzeć przykładowy rezultat działania programu na wybranych przez
+        siebie danych wejściowych udokumentowany przynajmniej jednym zrzutem
+        ekranu
+      * zawrzeć diagram UML
+  * Rozwiązanie należy wysłać na adres poczty elektronicznej osoby prowadzącej
+    zajęcia.
+  * Rozwiązanie powinno mieć formę archiwum `.zip`, `.tar`, `.tar.gz` lub
+    `.tar.xz`. Archiwum powinno zawierać jedynie kod źródłowy z komentarzami
+    oraz plik `README.pdf`. Nie należy w archiwum umieszczać innych plików,
+    w szególności wykonywalnych. Przesłane archwium (po ewentualnej kompresji)
+    powinno mieć rozmiar co najwyżej 1 MB.
+  * Rozwiązanie podlega ocenie przez wzgląd na:
+      * zgodność z ww. wymaganiami
+      * funkcjonalność
+      * jakość i ilość kodu źródłowego
+      * jakość i ilość komentarzy w kodzie źródłowym
+      * zawartość pliku `README.pdf`
+  * Uwaga! Rozwiązanie niekompilujące się otrzymuje ocenę zerową.
+
+### Propozycje tematów projektów indywidualnych
+
+[W trakcie przygotowania]
+
+Poniżej przedstawiono propozycje tematów projektów indywidualnych. W trakcie
+rozwiązywania zadania wybrany przez siebie temat należy rozwinąć tak, aby
+w implementacji rozwiązania znalazły się wszystkie wymagane elementy opisane
+wcześniej.
+
+Uwaga! W rozwiązaniu zadania należy w pierwszej kolejności skupić się na
+zastosowaniu reguł programowania obiektowego. (Algorytmika, choć jest bardzo
+cenna, nie jest przedmiotem tego zadania.)
+
+  * *Automat sprzedający* — program symulujący działanie automatu sprzedającego
+    towary danego rodzaju (np. bilety albo napoje i przekąski)
+  * *Bank* — symulacja działania banku z obsługą klientów oraz ich rachunków
+    i transakcji
+  * *Chemia* — baza danych związków chemicznych wraz z ich klasyfikacją
+  * *Dziennik sportowy* — program dla osób uprawiających sport umożliwiający
+    zapisywanie i analizowanie codziennych postępów w ćwiczeniach (np. długości
+    przebytych tras wraz z odpowiadającym czasem)
+  * *Fiszki* — nauka słów w różnych językach obcych
+  * *Gra planszowa* — wybrana prosta gra planszowa (np. kółko i krzyżyk)
+    z historią rozegranych partii i profilami graczy
+  * *Kalkulator naukowy* — program kalkulatora w wersji naukowej umożliwiający
+    m.in. konwersję jednostek
+  * *Klasyfikacja biologiczna* — program służący do zarządzania bazą danych
+    gatunków biologicznych
+  * *Konfigurator PC* — program przeznaczony do samodzielnej konfiguracji
+    komputera składanego z wybranych przez użytkownika podzespołów
+  * *Książka kucharska* — program umożliwiający przechowywanie przepisów
+    kucharskich wraz z informacjami o wartościach odżywczych posiłków
+    i subiektywną oceną smaku potraw
+  * *Menedżer haseł* — menedżer umożliwiający zapisywanie, odczytywanie
+    i modyfikację haseł wykorzystywanych przez użytkownika w usługach
+    internetowych
+  * *Menedżer plików* — program umożliwiający najbardziej podstawowe operacje
+     na plikach i katalogach (folderach)
+  * *Menedżer zakładek* — niezależny od przeglądarki internetowej menedżer
+    zakładek URL umożliwiający zapisywanie odnośników wraz z tytułami
+    i kategoriami tematycznymi
+  * *Odtwarzacz MIDI* — program umożliwiający generowanie dźwięku na podstawie
+    tekstowych plików wejściowych wykorzystujących notację MIDI
+  * *Odtwarzacz muzyczny* — program umożliwiający odtwarzanie plików dźwiękowych
+    w formacie WAV
+  * *Rezerwacja sal* — program symulujący system rezerwacji sal w budynku (np.
+    uczelni) umożliwiający różnym grupom osób uprawnionych rezerwację sal
+    o odpowiednich parametrach (liczbie stanowisk, wyposażeniu)
+  * *Teatr* — program ułatwiający zarządzanie teatrem poprzez możliwość edycji
+    wystawianych sztuk, wymaganych rekwizytów oraz zatrudnienia obsady
+  * *Układ okresowy pierwiastków* — program służący do prezentacji danych na
+    temat pierwiastków układu okresowego
+  * *Wąż* — gra w węża
+    ([Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre)))
+    z możliwością konfiguracji i zapamiętywania wyników
 
 ## Moduł 0
 
@@ -817,6 +931,10 @@ Wyjątek `International_Pitch_Notation_Exception` powinien być rzucany wtedy, g
 jakaś metoda klasy `International_Pitch_Notation` próbuje zapisać nutę w sposób
 niezgodny z notacją IPN, np. próbując ustawić wartość M♯4.
 
+### Bibliografia
+
+  * <https://docs.oracle.com/javase/tutorial/java/IandI/super.html>
+
 ## Moduł 5
 
 ### Pliki tekstowe: zapis i odczyt (wersja klasyczna)
@@ -1119,6 +1237,152 @@ Napisz przykładowy program, który wykorzystuje nową klasę oraz klasę `JFram
 ### Bibliografia
 
   * <https://docs.oracle.com/javase/tutorial/java/concepts/inheritance.html>
+  * <https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html>
+
+## Moduł 7
+
+### Interfejsy
+
+Przykład (pełny przykład znajduje się w katalogu
+[Meow/](/programowanie-obiektowe/examples/07/Meow/)):
+```java
+interface Meowable {
+    // Interfejs może zawierać:
+    // - stałe
+    int no_of_legs = 4;
+    
+    // - sygnatury metod
+    String meow();
+
+    // - metody domyślne
+    default String eat() {
+        return "O mnom mnom!";
+    }
+
+    // - metody statyczne
+    static String purr() {
+        return "Purr!";
+    }
+
+    // - typy zagnieżdżone
+    class Kitty {}
+}
+
+interface Huntable {
+    // Najczęściej są jednak używane sygnatury metod.
+    boolean successful_hunting();
+}
+
+class Cat implements Meowable {
+    public String meow() {
+        return "Meow!";
+    }
+
+    int legs() {
+        return no_of_legs;
+    }
+};
+
+class Wild_Cat extends Cat implements Meowable, Huntable {
+    @Override public String meow() {
+        return "Meeeooow!!!";
+    }
+
+    @Override public String eat() {
+        return "O mnom mnom!!!";
+    }
+
+    public boolean successful_hunting() {
+        return new java.util.Random().nextBoolean();
+    }
+};
+
+public class Meow {
+    public static void main(String[] args) {
+        Cat c = new Cat();
+        Wild_Cat w = new Wild_Cat();
+        Meowable.Kitty k = new Meowable.Kitty();
+
+        System.out.println(c.meow() + " " + c.eat());
+        System.out.println(w.meow());
+        if (w.successful_hunting()) {
+            System.out.println(w.eat());
+        }
+        // Meowable.no_of_legs = 5; // Błąd!
+        System.out.println(Meowable.purr());
+    }
+}
+```
+
+Wynik działania przykładu:
+> Meow! O mnom mnom!  
+> Meeeooow!!!  
+> O mnom mnom!!!  
+> Purr!
+
+### Klasy i metody abstrakcyjne
+
+Przykład (pełny przykład znajduje się w katalogu
+[Abstract_Meow/](/programowanie-obiektowe/examples/07/Abstract_Meow/)):
+```java
+abstract class Meow {
+    private boolean hungry;
+
+    Meow() {
+        hungry = true;
+    }
+
+    public void set_hungry(boolean b) {
+        hungry = b;
+    }
+
+    String meow() {
+        return hungry? frustrated() : satisfied();
+    }
+
+    abstract String frustrated();
+    abstract String satisfied();
+}
+
+class Cat extends Meow {
+    @Override String frustrated() {
+        return "Meowowowow!";
+    }
+
+    @Override String satisfied() {
+        return "Meow!";
+    }
+};
+
+public class Abstract_Meow {
+    public static void main(String[] args) {
+        Cat c = new Cat();
+        System.out.println(c.meow());
+        c.set_hungry(false);
+        System.out.println(c.meow());
+    }
+}
+```
+
+Wynik działania przykładu:
+> Meowowowow!  
+> Meow!
+
+### Polimorfizm
+
+### Zadania
+
+#### 7.1
+
+#### 7.2
+
+#### 7.3
+
+### Bibliografia
+
+  * <https://docs.oracle.com/javase/tutorial/java/IandI/polymorphism.html>
+  * <https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html>
+  * <https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html>
 
 ## Zastrzeżenia
 
