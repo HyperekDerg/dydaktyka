@@ -22,8 +22,6 @@ Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
 
 ## Projekt indywidualny
 
-[W trakcie przygotowania]
-
   * Projekt indywidualny jest jednorazowym większym zadaniem na przedmiocie
     *Programowanie obiektowe*, w którym rozwiązuje się dany problem z użyciem
     graficznego interfejsu użytkownika.
@@ -78,8 +76,6 @@ Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
   * Uwaga! Rozwiązanie niekompilujące się otrzymuje ocenę zerową.
 
 ### Propozycje tematów projektów indywidualnych
-
-[W trakcie przygotowania]
 
 Poniżej przedstawiono propozycje tematów projektów indywidualnych. W trakcie
 rozwiązywania zadania wybrany przez siebie temat należy rozwinąć tak, aby
@@ -1281,7 +1277,7 @@ class Cat implements Meowable {
     int legs() {
         return no_of_legs;
     }
-};
+}
 
 class Wild_Cat extends Cat implements Meowable, Huntable {
     @Override public String meow() {
@@ -1295,7 +1291,7 @@ class Wild_Cat extends Cat implements Meowable, Huntable {
     public boolean successful_hunting() {
         return new java.util.Random().nextBoolean();
     }
-};
+}
 
 public class Meow {
     public static void main(String[] args) {
@@ -1352,7 +1348,7 @@ class Cat extends Meow {
     @Override String satisfied() {
         return "Meow!";
     }
-};
+}
 
 public class Abstract_Meow {
     public static void main(String[] args) {
@@ -1368,21 +1364,107 @@ Wynik działania przykładu:
 > Meowowowow!  
 > Meow!
 
-### Polimorfizm
-
 ### Zadania
 
-#### 7.1
+#### 7.1 Historia naturalna
 
-#### 7.2
+Napisz program, który sortuje wydarzenia w historii naturalnej przez wzgląd na
+czas w którym one nastąpiły. W tym celu stwórz klasę `Natural_history_event`,
+która przechowuje opis wydarzenia oraz datę rozumianą jako liczbę lat, która od
+jego zaistnienia upłynęła. Dane typu `Natural_history_event` wczytaj do listy,
+którą posortujesz z użyciem instrukcji `Collections.sort(list);`. Pamiętaj, że
+obiekty klasy `Natural_history_event` można sortować pod warunkiem, że klasa ta
+implementuje interfejs `Comparable`. Dane wczytaj według własnego uznania
+z klawiatury bądź pliku a rezultat sortowania wyświetl na ekranie lub zapisz do
+pliku. Oto zestaw przykładowych danych, których możesz użyć do testowania
+swojego rozwiązania (*a* oznacza rok temu, *ka* — tysiąc lat temu, *Ma* — milion
+lat temu, *Ga* — miliard lat temu):
+  * 315 ka — *Homo sapiens*
+  * 300 Ma — ssaki
+  * 243 Ma — dinozaury
+  * 11,6 Ma — chód na dwóch nogach
+  * 170 ka — ubrania
+  * 66,043 Ma — krater Chicxulub
+  * 4,54 Ga — uformowanie Ziemi
+  * 3,4 Ma — narzędzia kamienne
+  * 13,8 Ga — Wielki Wybuch
+  * 2,5 Ma — *Homo*
+  * 90 Ma — naczelne
+  * 20 Ma — człowiekowate
+  * 800 Ma — zwierzęta
+  * 35 Ma — wiechlinowate (trawy)
+  * 270 ka — II wyjście z Afryki
+  * 1,5 Ga — rozpad superkontynentu
+  * 1,5 Ga — grzyby
+  * 2,12 Ma — I wyjście z Afryki
+  * 2,5 Ga — katastrofa tlenowa
+  * 650 Ma — zamarznięta Ziemia
 
-#### 7.3
+Uwaga: Określenie *historia naturalna* jest obecnie zbyt ogólnikowe, choć wciąż
+bywa używane, np. w biologii ewolucyjnej.
+
+#### 7.2 Kolekcja płyt
+
+Napisz program symulujący kolekcję płyt CD (albumy muzyczne) i DVD (filmy).
+Zarówno płyta CD jak i DVD ma tytuł i długość zawartego w niej materiału
+(liczoną w sekundach). Płyta CD posiada nazwę artysty/zespołu, natomiast płyta
+DVD dysponuje kodem regionu, do którego jest przeznaczona.
+
+Swtórz klasę bazową `Disc` i odpowiednie klasy pochodne dla płyty CD oraz płyty
+DVD. Napisz program wykorzystujący `List<Disc>`, który tworzy małą kolekcję płyt
+i na ekranie wypisuje wszystkie informacje o wszystkich płytach w tej kolekcji
+niezależnie od ich rodzaju.
+
+API każdej z klas zaprojektuj tak, aby umożliwiało ono pobranie wartości każdego
+pola danych z osobna. Stosuj kapsułkowanie danych i unikaj dostępu chronionego.
+Zastosuj wiedzę z zakresu klas i metod abstrakcyjnych (interfejsy nie są
+potrzebne do rozwiązania zadania). Pamiętaj, że używanie `@Override` jest dobrą
+praktyką.
+
+#### 7.3 Interfejsy a abstrakcyjne klasy bazowe
+
+Interfejsy mogą być do pewnego stopnia zamienione przez abstrakcyjne klasy
+bazowe. W szczególności odpowiedni fragment z przykładu
+[Meow/](/programowanie-obiektowe/examples/07/Meow/) można zastąpić przez kod:
+```java
+abstract class Meowable {
+    public final int no_of_legs = 4;
+    
+    abstract String meow();
+    
+    public String eat() {
+        return "O mnom mnom!";
+    }
+
+    static String purr() {
+        return "Purr!";
+    }
+
+    class Kitty {}
+}
+
+class Cat extends Meowable {
+    @Override public String meow() {
+        return "Meow!";
+    }
+
+    int legs() {
+        return no_of_legs;
+    }
+}
+```
+
+Wskaż przykład wykorzystania pojęcia interfejsu, gdzie **nie można** zastąpić go
+abstrakcyjną klasą bazową. (Zaprezentuj przykład kodu, który kompiluje się gdy
+użyto interfejsu, ale nie można go skompilować po zmianie na abstrakcyjną
+klasę bazową.)
 
 ### Bibliografia
 
   * <https://docs.oracle.com/javase/tutorial/java/IandI/polymorphism.html>
   * <https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html>
   * <https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html>
+  * <https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html>
 
 ## Zastrzeżenia
 

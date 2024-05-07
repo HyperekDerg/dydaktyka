@@ -33,7 +33,7 @@ class Cat implements Meowable {
     int legs() {
         return no_of_legs;
     }
-};
+}
 
 class Wild_Cat extends Cat implements Meowable, Huntable {
     @Override public String meow() {
@@ -47,7 +47,7 @@ class Wild_Cat extends Cat implements Meowable, Huntable {
     public boolean successful_hunting() {
         return new java.util.Random().nextBoolean();
     }
-};
+}
 
 public class Meow {
     public static void main(String[] args) {
