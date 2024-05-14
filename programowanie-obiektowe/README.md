@@ -1,7 +1,11 @@
 # Programowanie obiektowe
 
+Poniżej znajdują się materiały dydaktyczne dla kursu programowania obiektowego
+w języku Java.
+
 Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
-[3](#moduł-3), [4](#moduł-4), [5](#moduł-5), [6](#moduł-6), [7](#moduł-7).
+[3](#moduł-3), [4](#moduł-4), [5](#moduł-5), [6](#moduł-6), [7](#moduł-7),
+[8](#moduł-8).
 
 ## Informacje organizacyjne
 
@@ -18,7 +22,15 @@ Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
 ## Źródła wiedzy
 
   * <https://docs.oracle.com/javase/tutorial/java/TOC.html>
+  * <https://docs.oracle.com/javase/tutorial/uiswing/TOC.html>
+  * <https://docs.oracle.com/javase/8/docs/api/>
+  * <https://docs.oracle.com/en/java/javase/22/docs/api/index.html>
   * <https://en.wikibooks.org/wiki/Java_Programming>
+  * <https://en.wikibooks.org/wiki/Java_Swings>
+  * <https://www.youtube.com/java>
+  * <https://dev.java/>
+  * <https://inside.java/>
+  * <https://openjfx.io/>
 
 ## Projekt indywidualny
 
@@ -1131,7 +1143,7 @@ class Cat {
     public String description() {
         return "Cat with " + fur + " fur";
     }
-};
+}
 
 class Wild_Cat extends Cat {
     private int sharpness_of_claws; // [0%, 100%]
@@ -1151,7 +1163,7 @@ class Wild_Cat extends Cat {
             + super.description()
             + " and claws with sharpness of " + sharpness_of_claws + "%";
     }
-};
+}
 
 public class Cat_Example {
     private static void example_1() {
@@ -1465,6 +1477,236 @@ klasę bazową.)
   * <https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html>
   * <https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html>
   * <https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html>
+
+## Moduł 8
+
+### Graficzny interfejs użytkownika
+
+  * Abstract Window Toolkit (AWT) — pierwotny interfejs graficzny języka Java
+    zbudowany w oparciu o komponenty natywne danego systemu operacyjnego
+  * Swing — niezależny od systemu operacyjnego interfejs oparty na AWT
+  * JavaFX — najnowszy interfejs graficzny
+
+Na ten moment ograniczymy się do interfejsów Swing oraz AWT.
+
+### Swing
+
+API interfejsu Swing zawiera wiele pakietów. Jednak w większości przypadków
+wystarczą dwa:
+  * `javax.swing`
+  * `javax.swing.event`
+
+Uwaga: Symbol `javax` oznacza “Java Extension”, który to termin ma obecnie
+znaczenie historyczne. Z czasem API `javax` stało się integralną częścią Java.
+
+Uwaga: Zamiast `javax.swing.event` można wykorzystywać `java.awt.event`.
+
+### Hierarchia przechowywania
+
+  * Każdy program Swing posiada co najmniej jeden kontener najwyższego poziomu,
+    taki jak `JFrame` (główne okno aplikacji), `JDialog` (okno dialogowe) lub
+    `JApplet` (aplety; znaczenie historyczne — zob. uwagę poniżej).
+  * Każdy komponent może zostać zawarty tylko w jednym kontenerze nadrzędnym.
+
+Uwaga: Aplety Java były w przeszłości popularnym rozwiązaniem do publikowania
+interaktywnej zawartości w internecie. Zrezygnowano jednak z nich z powodów
+bezpieczeństwa oraz kompatybilności. Funkcjonalność apletów Java uruchamianych
+z poziomu przeglądarki internetowej została przejęta przez HTML, CSS oraz
+JavaScript (a także przez WebAssembly).
+
+### Przykłady
+
+Poniżej znajduje się przykład z wykorzystaniem pozycjonowania bezwzględnego,
+elementów interfejsu Swing oraz obsługi wydarzeń z interfejsu AWT.
+
+Uwaga: Mimo, że przykład wykorzystuje pozycjonowanie bezwzględne, należy mieć
+na uwadze, że w tworzeniu zaawansowanych aplikacji rekomenduje się wykorzystanie
+menedżera układu.
+
+Przykład (pełny przykład znajduje się w katalogu
+[Degree_to_radian/](/programowanie-obiektowe/examples/08/Degree_to_radian/)):
+```java
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Degree_to_radian extends JFrame {
+    
+    private JTextField value_field = new JTextField();
+    private JLabel degree_label = new JLabel("°");
+    private JButton convert_button = new JButton("=");
+    private JLabel result_label = new JLabel();
+
+    private final void set_icon() {
+        ImageIcon img = new ImageIcon("../../../../fig/Kitty32x32.jpg");
+        setIconImage(img.getImage());
+    }
+    
+    private final void add_components() {
+        add(value_field);
+        add(degree_label);
+        add(convert_button);
+        add(result_label);
+    }
+    
+    private final void set_bounds() {
+        final int mx = 75; // "margines" w poziomie
+        final int my = 10; // "margines" w pionie
+        final int xx = 75; // szerokość komponentu
+        final int yy = 30; // wysokość komponentu
+        final int dx =  5; // szerokość odstępu poziomego
+        final int dy =  5; // wysokość odstępu pionowego
+        final int h  = 75; // wysokość ramki
+        setBounds(0, 0, 4 * xx + 3 * dx + 2 * mx, h);
+        value_field   .setBounds(                mx, my, xx, yy);
+        degree_label  .setBounds(      mx + xx + dx, my, xx, yy);
+        convert_button.setBounds(mx + 2 * (xx + dx), my, xx, yy);
+        result_label  .setBounds(mx + 3 * (xx + dx), my, xx, yy);
+    }
+    
+    private final void add_actions() {
+        // Uwaga: Po `new` wykorzystano składnię tzw. klasy anonimowej.
+        convert_button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    convert_to_radians(evt);
+                }
+            });
+    }
+    
+    public Degree_to_radian() {
+        super("Konwersja stopni na radiany");
+        setLayout(null); // pozycjonowanie bezwzględne
+        set_icon();
+        add_components();
+        set_bounds();
+        add_actions();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+    
+    private void convert_to_radians(ActionEvent evt) {
+        double val_deg = (double)(Double.parseDouble(value_field.getText()));
+        double val_rad = val_deg * Math.PI / 180.;
+        result_label.setText(String.format("%.2f", val_rad) + " rad");
+    }
+    
+    public static void main(String args[]) {
+        new Degree_to_radian().setVisible(true);
+    }
+}
+```
+
+Wynik działania przykładu:  
+![Wynik działania przykładu](/programowanie-obiektowe/examples/08/Degree_to_radian/result.png)
+
+Uwaga: Obramowanie wokół symbolu znaku równości jest artefaktem po kliknięciu
+w przycisk.
+
+Poniżej znajduje się przykład wykorzystujący menu.
+
+Przykład (pełny przykład znajduje się w katalogu
+[Menu_example/](/programowanie-obiektowe/examples/08/Menu_example/)):
+```java
+import javax.swing.*;
+
+public class Menu_example extends JFrame {
+    private JMenuBar menubar = new JMenuBar();
+    private JMenu menu = new JMenu("Menu");
+    private JMenuItem item1 = new JMenuItem("Element 1");
+    private JMenuItem item2 = new JMenuItem("Element 2");
+
+    private final void set_icon() {
+        ImageIcon img = new ImageIcon("../../../../fig/Kitty32x32.jpg");
+        setIconImage(img.getImage());
+    }
+    
+    private final void add_components() {
+        setJMenuBar(menubar);
+        menubar.add(menu);
+        menu.add(item1);
+        menu.add(item2);
+    }
+    
+    public Menu_example() {
+        super("Program z menu");
+        set_icon();
+        add_components();
+        setBounds(0, 0, 250, 125);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    public static void main(String[] args) {
+        new Menu_example().setVisible(true);
+    }
+}
+```
+
+Wynik działania przykładu:  
+![Wynik działania przykładu](/programowanie-obiektowe/examples/08/Menu_example/result.png)
+
+### Dodatek: Klasy anonimowe
+
+Przykład (pełny przykład znajduje się w katalogu
+[Anonymous_class/](/programowanie-obiektowe/examples/08/Anonymous_class/)):
+```java
+class My_class {
+    public void f() {
+        System.out.println("My_class.f");
+    }
+}
+
+interface My_interface {
+    void f();
+}
+
+public class Anonymous_class {
+    public static void main(String args[]) {
+        new My_class() {
+            @Override public void f() {
+                System.out.println("<anonymous class/class>.f");
+            }
+        }.f();
+
+        new My_interface() {
+            @Override public void f() {
+                System.out.println("<anonymous class/interface>.f");
+            }
+        }.f();
+    }
+}
+```
+Wynik działania przykładu:
+> <anonymous class/class>.f  
+> <anonymous class/interface>.f
+
+### Bibliografia
+
+  * <https://docs.oracle.com/javase/8/docs/technotes/guides/awt/>
+  * <https://docs.oracle.com/javase/8/docs/technotes/guides/swing/>
+  * <https://docs.oracle.com/javase/tutorial/uiswing/events/>
+  * <https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/java/awt/package-summary.html>
+  * <https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/package-summary.html>
+  * <https://www.oracle.com/technical-resources/articles/java/mixing-components.html>
+  * <https://www.oracle.com/java/technologies/painting.html>
+  * <https://docs.oracle.com/javase/8/javase-clienttechnologies.htm>
+  * <https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html>
+  * <https://docs.oracle.com/javase/tutorial/uiswing/layout/>
+  * <https://docs.oracle.com/javase/8/docs/api/javax/swing/JTextField.html>
+  * <https://docs.oracle.com/javase/8/docs/api/javax/swing/JLabel.html>
+  * <https://docs.oracle.com/javase/8/docs/api/javax/swing/JButton.html>
+  * <https://docs.oracle.com/javase/8/docs/api/javax/swing/JMenuBar.html>
+  * <https://docs.oracle.com/javase/8/docs/api/javax/swing/JMenu.html>
+  * <https://docs.oracle.com/javase/8/docs/api/javax/swing/JMenuItem.html>
+  * Kirill Grouchnikov (Maj 2008), *Swing, RIA and JavaFX – interview with Amy
+    Fowler*.
+    <https://www.pushing-pixels.org/2008/05/19/swing-ria-and-javafx-interview-with-amy-fowler.html>
+
+### Zadania
+
+#### Pojedynczy projekt indywidualny
+
+Zadanie polega na zrealizowaniu jednego projektu indywidualnego zgodnie
+z instrukcjami zawartymi w sekcji [Projekt indywidualny](#projekt-indywidualny)
+i w terminie tam podanym.
 
 ## Zastrzeżenia
 

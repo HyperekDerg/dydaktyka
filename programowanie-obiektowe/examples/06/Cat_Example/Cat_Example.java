@@ -12,7 +12,7 @@ class Cat {
     public String description() {
         return "Cat with " + fur + " fur";
     }
-};
+}
 
 class Wild_Cat extends Cat {
     private int sharpness_of_claws; // [0%, 100%]
@@ -32,7 +32,7 @@ class Wild_Cat extends Cat {
             + super.description()
             + " and claws with sharpness of " + sharpness_of_claws + "%";
     }
-};
+}
 
 public class Cat_Example {
     private static void example_1() {
