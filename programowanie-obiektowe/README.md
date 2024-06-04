@@ -5,7 +5,7 @@ w języku Java.
 
 Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
 [3](#moduł-3), [4](#moduł-4), [5](#moduł-5), [6](#moduł-6), [7](#moduł-7),
-[8](#moduł-8).
+[8](#moduł-8), [9](#moduł-9).
 
 ## Informacje organizacyjne
 
@@ -1700,13 +1700,435 @@ Wynik działania przykładu:
     Fowler*.
     <https://www.pushing-pixels.org/2008/05/19/swing-ria-and-javafx-interview-with-amy-fowler.html>
 
-### Zadania
-
-#### Pojedynczy projekt indywidualny
+### Projekt indywidualny
 
 Zadanie polega na zrealizowaniu jednego projektu indywidualnego zgodnie
 z instrukcjami zawartymi w sekcji [Projekt indywidualny](#projekt-indywidualny)
 i w terminie tam podanym.
+
+## Moduł 9
+
+### Wzorce projektowe
+
+Podział wzorców:
+  * behawioralne (czynnościowe)
+  * kreacyjne (konstrukcyjne)
+  * strukturalne
+
+Wzorce mogą być klasowe i obiektowe.
+
+Dalej znajdują się przykłady wzorców projektowych.
+
+### Metoda szablonowa (behawioralny, klasowy)
+
+Metoda szablonowa (*template method*) jest behawioralnym klasowym wzorcem
+projektowym umożliwiającym wyspecyfikowanie ogólnego algorytmu w klasie bazowej
+i doprecyzowanie szczegółów w klasach pochodnych.
+
+Przykład (pełny przykład znajduje się w katalogu
+[Travelling/](/programowanie-obiektowe/examples/09/Travelling/)):
+```java
+abstract class Traveller {
+    public void travel(String starting_point,
+                       String destination_point,
+                       String things_to_take) {
+        pack_the_luggage(things_to_take);
+        leave(starting_point);
+        cover_the_distance(starting_point, destination_point);
+        enter(destination_point);
+    }
+
+    protected void pack_the_luggage(String things_to_take) {
+        System.out.println("Pakuję: " + things_to_take);
+    }
+
+    protected void leave(String starting_point) {
+        System.out.println("Opuszczam: " + starting_point);
+    }
+
+    abstract protected void cover_the_distance(String starting_point,
+                                               String destination_point);
+
+    protected void enter(String destination_point) {
+        System.out.println("Przybywam do: " + destination_point);
+    }
+}
+
+class Car_driver extends Traveller {
+    @Override protected void cover_the_distance(String starting_point,
+                                                String destination_point) {
+        if (empty_tank()) {
+            refuel();
+        }
+    }
+
+    private Boolean empty_tank() {
+        return new java.util.Random().nextBoolean();
+    }
+
+    private void refuel() {
+        System.out.println("Tankowanie");
+    }
+}
+
+class Cyclist extends Traveller {
+    @Override protected void pack_the_luggage(String things_to_take) {
+        System.out.println("Pakuję: " + things_to_take);
+        System.out.println("Niestety, nie wszystko się zmieściło w bagażniku");
+    }
+    
+    @Override protected void cover_the_distance(String starting_point,
+                                                String destination_point) {
+        if (is_raining()) {
+            System.out.println("Pada deszcz");
+            get_wet();
+        }
+        if (is_chased_by_a_dog()) {
+            System.out.println("Goni mnie pies");
+            escape();
+        }
+    }
+
+    private Boolean is_raining() {
+        return new java.util.Random().nextBoolean();
+    }
+
+    private void get_wet() {
+        System.out.println("Moknę");
+    }
+
+    private Boolean is_chased_by_a_dog() {
+        return new java.util.Random().nextBoolean();
+    }
+
+    private void escape() {
+        System.out.println("Uciekam");
+    }
+}
+
+public class Travelling {
+    private static void travel(Traveller t) {
+        t.travel("X", "Y", "plecak i zakupy");
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("Podróż samochodem");
+        travel(new Car_driver());
+        System.out.println("Podróż rowerem");
+        travel(new Cyclist());
+    }
+}
+```
+
+Wynik działania przykładu:
+> Podróż samochodem  
+> Pakuję: plecak i zakupy  
+> Opuszczam: X  
+> Tankowanie  
+> Przybywam do: Y  
+> Podróż rowerem  
+> Pakuję: plecak i zakupy  
+> Niestety, nie wszystko się zmieściło w bagażniku  
+> Opuszczam: X  
+> Pada deszcz  
+> Moknę  
+> Goni mnie pies  
+> Uciekam  
+> Przybywam do: Y
+
+Diagram UML klas przykładu:
+![Diagram UML klas przykładu](/programowanie-obiektowe/examples/09/Travelling/uml.svg)
+
+### Fabryka abstrakcyjna (kreacyjny, obiektowy)
+
+Fabryka abstrakcyjna (*abstract factory*) jest kreacyjnym obiektowym wzorcem
+projektowym umożliwiającym tworzenie rodzin powiązanych obiektów bez
+konieczności specyfikowania konkretnych klas.
+
+Przykład (pełny przykład znajduje się w katalogu
+[Cuisine/](/programowanie-obiektowe/examples/09/Cuisine/)):
+```java
+// Interfejsy abstrakcyjnych produktów na przykładzie posiłków:
+// - zupa
+interface Soup {
+    Boolean is_hot();
+}
+
+// - danie główne
+interface Main_course {
+    Boolean contains_meat();
+}
+
+// - deser
+interface Dessert {
+    String main_ingredient();
+}
+
+// Interfejs fabryki abatrakcyjnej na przykładzie kuchni regionalnych.
+interface Regional_cuisine {
+    Soup prepare_soup();
+    Main_course prepare_main_course();
+    Dessert prepare_dessert();
+}
+
+// Klasy implementujące powyższe interfejsy znajdują się poniżej.
+
+// Kuchnia polska: żurek, kotlet schabowy i sernik.
+
+class Zurek implements Soup {
+    public Boolean is_hot() { return true; }
+}
+
+class Kotlet_schabowy implements Main_course {
+    public Boolean contains_meat() { return true; }
+}
+
+class Sernik implements Dessert {
+    public String main_ingredient() { return "twaróg"; }
+}
+
+class Polish_cuisine implements Regional_cuisine {
+    public Soup prepare_soup() { return new Zurek(); }
+    public Main_course prepare_main_course() { return new Kotlet_schabowy(); }
+    public Dessert prepare_dessert() { return new Sernik(); }
+}
+
+// Kuchnia włoska: stracciatella, lasagne al forno, panna cotta.
+
+class Stracciatella implements Soup {
+    public Boolean is_hot() { return true; }
+}
+
+class Lasagne_al_forno implements Main_course {
+    public Boolean contains_meat() { return true; }
+}
+
+class Panna_cotta implements Dessert {
+    public String main_ingredient() { return "śmietanka"; }
+}
+
+class Italian_cuisine implements Regional_cuisine {
+    public Soup prepare_soup() { return new Stracciatella(); }
+    public Main_course prepare_main_course() { return new Lasagne_al_forno(); }
+    public Dessert prepare_dessert() { return new Panna_cotta(); }
+}
+
+// Wykorzystanie fabryki abstrakcyjnej do stworzenia kompletnych zestawów
+// posiłków danej kuchni znajduje się poniżej.
+
+public class Cuisine {
+    private static void prepare_meal(Regional_cuisine factory) {
+        System.out.println(factory.getClass().getName());
+        System.out.println(factory.prepare_soup().getClass().getName());
+        System.out.println(factory.prepare_main_course().getClass().getName());
+        System.out.println(factory.prepare_dessert().getClass().getName());
+    }
+    
+    public static void main(String[] args) {
+        prepare_meal(new Polish_cuisine());
+        prepare_meal(new Italian_cuisine());
+    }
+}
+```
+
+Wynik działania przykładu:
+> Polish_cuisine  
+> Zurek  
+> Kotlet_schabowy  
+> Sernik  
+> Italian_cuisine  
+> Stracciatella  
+> Lasagne_al_forno  
+> Panna_cotta
+
+Diagram UML klas przykładu:
+![Diagram UML klas przykładu](/programowanie-obiektowe/examples/09/Cuisine/uml.svg)
+
+### Kompozyt (strukturalny, obiektowy)
+
+Kompozyt (*composite*) jest strukturalnym obiektowym wzorcem projektowym
+umożliwiającym składanie obiektów w strukturę drzewiastą i pracę ze strukturą
+tak, jakby była ona pojedynczym obiektem.
+
+Uwaga: Istnieją dwie odmiany kompozytu: *jednolita* oraz *bezpieczna typowo*.
+Tutaj zostanie omówiona wersja bezpieczna typowo.
+
+Przykład (pełny przykład znajduje się w katalogu
+[Packaging/](/programowanie-obiektowe/examples/09/Packaging/)):
+```java
+// Klasa komponentu o nazwie `Item`.
+class Item {
+    private double value;
+    public Item(double value) { this.value = value; }
+    public double value() { return value; } // Metoda operacji wzorca kompozyt.
+}
+
+// Klasy liści o nazwach `Phone`, `Charger` i `Headphones`.
+
+class Phone extends Item {
+    public Phone(double value) { super(value); }
+    public void make_call() {}
+    // …
+}
+
+class Charger extends Item {
+    public Charger(double value) { super(value); }
+    public void charge() {}
+    // …
+}
+
+class Headphones extends Item {
+    public Headphones(double value) { super(value); }
+    public void play() {}
+    // …
+}
+
+// Klasa kompozytu o nazwie `Package`.
+class Package extends Item {
+    private java.util.Stack<Item> items = new java.util.Stack<Item>();
+
+    public Package() { super(0.); }
+    
+    public void add(Item child) {
+        items.push(child);
+    }
+
+    public Item get() {
+        return items.pop();
+    }
+
+    // Metoda operacji wzorca kompozyt musi być tutaj nadpisana, aby prawidłowo
+    // obsłużyć kompozycję.
+    @Override public double value() {
+        double res = 0.;
+        for (Item i : items) {
+            res += i.value();
+        }
+        return res;
+    }
+}
+
+public class Packaging {
+    // W paczce przychodzi telefon z ładowarką.
+    private static Package phone_factory() {
+        Package res = new Package();
+        res.add(new Phone(479.));
+        res.add(new Charger(20.));
+        return res;
+    }
+
+    // W paczce przychodzą słuchawki.
+    private static Package audio_factory() {
+        Package res = new Package();
+        res.add(new Headphones(59.));
+        return res;
+    }
+
+    // W paczce przychodzą dwie mniejsze paczki.
+    public static void main(String[] args) {
+        Package delivery_package = new Package();
+        delivery_package.add(phone_factory());
+        delivery_package.add(audio_factory());
+        System.out.println("Cena przesyłki: " + delivery_package.value());
+    }
+}
+```
+
+Wynik działania przykładu:
+> Cena przesyłki: 558.0
+
+Diagram UML klas przykładu:
+![Diagram UML klas przykładu](/programowanie-obiektowe/examples/09/Packaging/uml.svg)
+
+### Zadania
+
+#### 9.1 Całkowanie numeryczne
+
+Korzystając ze wzorca projektowego *metoda szablonowa* stwórz odpowiednią
+hierarchię klas odpowiedzialną za numeryczne całkowanie funkcji:
+  * Stwórz klasę bazową `Numerical_integration`, która posiada m.in. metodę
+    `integrate` odpowiedzialną za całkowanie.
+  * Stwórz klasy pochodne `Rectangle_rule` oraz `Trapezoidal_rule`, które
+    umożliwiają całkowanie odpowiednio metodą prostokątów oraz trapezów.
+
+Na podstawie ww. hierarchii klas stwórz program, który całkuje numerycznie
+dowolnie wybraną przez siebie funkcję. Funkcja do całkowania może być:
+  * zakodowana na stałe w rozwiązaniu albo
+  * przekazywana jako argument konstruktora typu `DoubleFunction<double>`
+
+Zaprezentuj wynik całkowania funkcji obliczony metodą prostokątów oraz trapezów
+na wybranym przez siebie przedziale.
+
+Uwaga: Całkowanie funkcji $`f(x)`$ na przedziale od $`a`$ do $`b`$ metodą
+prostokątów polega na zastosowaniu przybliżenia:
+```math
+\int_a^b f(x)\, dx
+\approx
+\frac{b - a}{n}
+\sum_{i = 0}^{n - 1} f\left( a + ( i + \alpha ) \cdot \frac{b - a}{n} \right)
+```
+gdzie $`\alpha \in [0, 1]`$ i proponowaną wartością jest $`\alpha = \frac{1}{2}`$.
+W przypadku metody trapezów stosuje się przybliżenie:
+```math
+\int_a^b f(x)\, dx
+\approx
+\frac{1}{2} \frac{b - a}{n}
+\sum_{i = 0}^{n - 1}
+\left[
+f\left( a + i \cdot \frac{b - a}{n} \right)
++
+f\left( a + (i + 1) \cdot \frac{b - a}{n} \right)
+\right]
+```
+
+#### 9.2 Sonda von Neumanna
+
+Przeczytaj poniższy tekst z kategorii science-fiction.
+
+> Jakiś czas temu upłynął rok 2100 i ludzkość wreszcie stała się cywilizacją
+> typu I według klasyfikacji Kardasheva. Do osiągnięcia typu II (a tym bardziej
+> III) jeszcze bardzo długa droga. Jednak już taki postęp naukowo-technologiczny
+> umożliwił wykorzystywanie całej energii równoważnej tej, która dociera do
+> Ziemi ze Słońca. Ilość dostępnej energii umożliwia opanowanie wybuchów
+> wulkanów i trzęsień ziemi czy też kolonizowanie kosmosu. Ostatnią rewelacją
+> było zbudowanie sondy von Neumanna, która po osiągnięciu celu swojej
+> kosmicznej podróży potrafi wykonać pewnę pracę a także samodzielnie się
+> zreplikować. Kilka potężnych korporacji z sektora górnictwa kosmicznego
+> przystąpiło więc do rywalizacji o nowy segment rynku…
+
+Firmy *A*, *B* oraz *C* produkują sondy von Neumanna do celów górnictwa
+kosmicznego. Każda z nich dysponuje własnościowymi rozwiązaniami w zakresie
+silników, mechanizmów replikujących sondę oraz narzędzi wydobywczych.
+Rozwiązania nie są uniwersalne i komponenty danej firmy współpracują jedynie
+z innymi komponentami tej samej firmy. Z użyciem wzorca projektowego *fabryka
+abstrakcyjna* napisz program, który umożliwi zamodelowanie wytworzenia zestawu
+zgodnych ze sobą podzespołów sondy von Neumanna według wyboru użytkownika.
+
+#### 9.3 Powierzchnia użytkowa domu
+
+Wróćmy do czasów współczesnych i nieco bardziej przyziemnych problemów.
+
+Dom może składać się z pokoi mieszkalnych, przedpokoi, kuchni, spiżarek,
+łazienek i garaży (dalej nazywanych *komponentami* domu). Powierzchnia użytkowa
+domu jest równa sumie wchodzących w jej skład powierzchni użytkowych
+poszczególnych komponentów. Korzystając ze wzorca projektowego *kompozyt* stwórz
+odpowiednią hierarchię klas modelującą podany problem. Napisz program
+wykorzystujący opracowaną hierarchię umożliwiający stworzenie instancji klasy
+odpowiadającej za dom pytając o liczbę i powierzchnie użytkowe poszczególnych
+komponentów. Niech program obliczy powierzchnię użytkową domu korzystając
+z odpowiedniej metody wzorca kompozyt.
+
+### Bibliografia
+
+  * Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides. *Design Patterns:
+    Elements of Reusable Object-Oriented Software*. Addison-Wesley (1994)
+  * <https://docs.oracle.com/javase/8/docs/api/java/util/Stack.html>
+  * <https://refactoring.guru/design-patterns/template-method>
+  * <https://refactoring.guru/design-patterns/abstract-factory>
+  * <https://refactoring.guru/design-patterns/composite>
+  * <https://agilemodeling.com/artifacts/classDiagram.htm>
+  * <https://developer.ibm.com/articles/the-class-diagram/>
+  * <https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleFunction.html>
 
 ## Zastrzeżenia
 
