@@ -5,7 +5,7 @@ w języku Java.
 
 Przejdź do treści modułu [0](#moduł-0), [1](#moduł-1), [2](#moduł-2),
 [3](#moduł-3), [4](#moduł-4), [5](#moduł-5), [6](#moduł-6), [7](#moduł-7),
-[8](#moduł-8), [9](#moduł-9).
+[8](#moduł-8), [9](#moduł-9), [10](#moduł-10).
 
 ## Informacje organizacyjne
 
@@ -2129,6 +2129,22 @@ z odpowiedniej metody wzorca kompozyt.
   * <https://agilemodeling.com/artifacts/classDiagram.htm>
   * <https://developer.ibm.com/articles/the-class-diagram/>
   * <https://docs.oracle.com/javase/8/docs/api/java/util/function/DoubleFunction.html>
+
+## Moduł 10
+
+### Wzorce projektowe cz. 2
+
+### Zadania
+
+#### 10.1 Pola powierzchni figur
+
+Korzystając ze wzorca projektowego *odwiedzający* (*visitor*) napisz program,
+który zademonstruje obliczanie pól powierzchni kilku figur geometrycznych
+różnego rodzaju.
+
+### Bibliografia
+
+  * <https://refactoring.guru/design-patterns/visitor>
 
 ## Zastrzeżenia
 
